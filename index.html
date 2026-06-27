@@ -1,40 +1,92 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Random Quote Generator</title>
+<title>Flashcard Quiz App</title>
+
 <style>
 body{
-font-family:Arial;
+font-family:Arial,sans-serif;
+background:#f4f4f4;
 text-align:center;
-padding:50px;
+padding:40px;
 }
+
+.card{
+background:white;
+padding:20px;
+max-width:400px;
+margin:auto;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
 button{
 padding:10px 20px;
-font-size:18px;
+margin:10px;
+font-size:16px;
+cursor:pointer;
+}
+
+#answer{
+display:none;
+color:green;
+font-weight:bold;
 }
 </style>
+
 </head>
+
 <body>
 
-<h2>Random Quote Generator</h2>
+<div class="card">
+<h2 id="question"></h2>
 
-<p id="quote">Click the button to get a quote</p>
+<p id="answer"></p>
 
-<button onclick="newQuote()">New Quote</button>
+<button onclick="showAnswer()">Show Answer</button>
+<br>
+
+<button onclick="previousCard()">Previous</button>
+<button onclick="nextCard()">Next</button>
+
+<p id="count"></p>
+</div>
 
 <script>
-const quotes = [
-"Success is not final; failure is not fatal.",
-"Believe you can and you're halfway there.",
-"Dream big and dare to fail.",
-"Stay hungry, stay foolish.",
-"The future depends on what you do today."
+
+const flashcards=[
+{question:"What is HTML?",answer:"HTML stands for HyperText Markup Language."},
+{question:"What is CSS?",answer:"CSS is used for styling web pages."},
+{question:"What is JavaScript?",answer:"JavaScript makes web pages interactive."},
+{question:"What is DBMS?",answer:"Database Management System."},
+{question:"What is SQL?",answer:"Structured Query Language."}
 ];
 
-function newQuote(){
-let random = Math.floor(Math.random() * quotes.length);
-document.getElementById("quote").innerHTML = quotes[random];
+let current=0;
+
+function loadCard(){
+document.getElementById("question").innerHTML=flashcards[current].question;
+document.getElementById("answer").innerHTML=flashcards[current].answer;
+document.getElementById("answer").style.display="none";
+document.getElementById("count").innerHTML="Card "+(current+1)+" of "+flashcards.length;
 }
+
+function showAnswer(){
+document.getElementById("answer").style.display="block";
+}
+
+function nextCard(){
+current=(current+1)%flashcards.length;
+loadCard();
+}
+
+function previousCard(){
+current=(current-1+flashcards.length)%flashcards.length;
+loadCard();
+}
+
+loadCard();
+
 </script>
 
 </body>
